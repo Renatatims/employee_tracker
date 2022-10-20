@@ -1,5 +1,22 @@
 const inquirer = require("inquirer");
 const fs = require("fs");
+const mysql = require('mysql2');
+
+const db = mysql.createConnection(
+	{
+	  host: 'localhost',
+	  user: 'root',
+	  password: process.env.DB_PASS,
+	  database: 'movies_db'
+	},
+	console.log(`Connected to the movies_db database.`)
+  );
+
+  // Query database
+	db.query('SELECT * FROM department', function (err, results) {
+	console.log(results);
+  });
+
 
 const questions = [
 	{
