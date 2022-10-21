@@ -3,6 +3,7 @@ const inquirer = require("inquirer");
 const mysql = require('mysql2');
 const consoleTable = require('console.table');
 
+//MySQL - Create Connection
 const db = mysql.createConnection(
 	{
 		host: 'localhost',
@@ -14,16 +15,13 @@ const db = mysql.createConnection(
 	console.log(`Connected to the employees_db database.`)
 );
 
-/* // Query database
-   db.query('SELECT * FROM department', function (err, results) {
-   console.log(results);
- });*/
 db.connect(function (err) {
 	if (err) throw err
 	console.log("Connected!")
 	userInput();
 });
 
+//MAIN question
 const questions = [
 	{
 		type: 'list',
@@ -42,23 +40,18 @@ const departmentQuestion = [
 	}
 ]
 
-
-
 // ROLE questions
 const roleQuestions = [
 	{
 		type: 'input',
 		message: "What is the name of the role?",
 		name: 'roleName',
-
 	},
 	{
 		type: 'input',
 		message: "What is the salary of the role?",
 		name: 'roleSalary',
-
 	}
-
 ]
 
 //EMPLOYEE questions
@@ -74,16 +67,6 @@ const employeeQuestions = [
 		name: 'employeeLastName',
 	},
 ]
-
-/*
-	//Back to main menu
-	{
-		type: 'list',
-		message: "Please select another option",
-		choices: ["Back to Main menu", "Exit application"],
-		name: 'questionAdd',
-	},
-]*/
 
 // User Input Function - return answers
 function userInput() {
@@ -164,7 +147,6 @@ function addDepartment() {
 		})
 };
 
-
 // Function Add Role
 function addRole() {
 	const departmentQ = {
@@ -200,7 +182,6 @@ function addRole() {
 }
 
 // Function Add Employee
-
 function addEmployee() {
 	const employeeRoleQ = {
 		type: 'list',
@@ -269,7 +250,5 @@ async function updateEmployee() {
 	console.log("Employee id");
 	userInput();
 }
-
-//
 
 
