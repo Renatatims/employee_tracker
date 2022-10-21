@@ -84,10 +84,10 @@ const employeeQuestions = [
 		name: 'employeeRole',
 	},
 	{
-		type: 'input',
+		type: 'list',
 		message: "Who is the employee's manager?",
 		name: 'employeeManager',
-		//choices: ["Manager1", "Manager2", "Manager3"],
+		choices: ["Manager1", "Manager2", "Manager3"],
 	},
 ]
 
