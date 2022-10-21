@@ -31,16 +31,19 @@ const questions = [
 		choices: ["View all departments", "View all roles", "View all employees", "Add a department", "Add a role", "Add an employee", "Update an employee role"],
 		name: 'userChoice'
 
-	},
-	//DEPARTMENT questions
+	}]
+
+//DEPARTMENT question
+const departmentQuestion = [
 	{
 		type: 'input',
 		message: "What is the department's name?",
 		name: 'departmentName',
-		when: function (answer) {
-			return answer.userChoice === "Add a department";
-		}
-	},
+	}
+]
+
+/*
+	
 	// ROLE questions
 	{
 		type: 'input',
@@ -102,14 +105,14 @@ const questions = [
 	},
 
 
-	/*//Back to main menu
+	//Back to main menu
 	{
 		type: 'list',
 		message: "Please select another option",
 		choices: ["Back to Main menu", "Exit application"],
 		name: 'questionAdd',
-	},*/
-]
+	},
+]*/
 
 
 // User Input Function - return answers
@@ -126,6 +129,10 @@ function userInput() {
 				case "View all employees":
 					viewEmployees();
 					break;
+				case "Add a department":
+					addDepartment();
+					break;
+
 			}
 		})
 
@@ -159,4 +166,29 @@ function viewEmployees() {
 			userInput()
 		})
 }
+
+// Function Add Department - to add a new department through user's input
+function addDepartment() {
+	return inquirer.prompt(departmentQuestion)
+		.then(function (res) {
+			db.query(
+				"INSERT INTO department SET ? ",
+				{
+					department_name: res.departmentName
+
+				},
+				function (err) {
+					if (err) throw err
+					console.table(res);
+					userInput();
+				}
+			)
+		})
+};
+
+
+// Function Add Role
+
+// Function Add Employee
+
 
