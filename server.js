@@ -57,13 +57,8 @@ const roleQuestions = [
 		message: "What is the salary of the role?",
 		name: 'roleSalary',
 
-	},
-	{
-		type: 'input',
-		message: "Which department does the role belong to?",
-		name: 'roleDepartment',
-
 	}
+
 ]
 
 //EMPLOYEE questions
@@ -84,10 +79,10 @@ const employeeQuestions = [
 		name: 'employeeRole',
 	},
 	{
-		type: 'list',
+		type: 'input',
 		message: "Who is the employee's manager?",
 		name: 'employeeManager',
-		choices: ["Manager1", "Manager2", "Manager3"],
+		//choices: ["Manager1", "Manager2", "Manager3"],
 	},
 ]
 
@@ -180,8 +175,19 @@ function addDepartment() {
 
 
 // Function Add Role
-
 function addRole() {
+	const dptQ = {
+		type: 'list',
+		message: "Which department does the role belong to?",
+		name: 'roleDepartment',
+
+	} 
+	db.promise().query("SELECT id AS value, department_name AS name FROM department")
+	.then(dept => {
+		console.log(dept);
+		dptQ.choices = dept[0]
+		roleQuestions.push(dptQ)
+	
 	return inquirer.prompt(roleQuestions)
 		.then((function (res) {
 			db.query(
@@ -199,6 +205,7 @@ function addRole() {
 				}
 			)
 		}))
+	})
 }
 
 // Function Add Employee
