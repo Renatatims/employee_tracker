@@ -1,3 +1,4 @@
+require('dotenv').config();
 const inquirer = require("inquirer");
 const fs = require("fs");
 const mysql = require('mysql2');
@@ -6,6 +7,7 @@ const db = mysql.createConnection(
 	{
 	  host: 'localhost',
 	  user: 'root',
+	  port: 3306,
 	  password: process.env.DB_PASS,
 	  database: 'employees_db'
 	},
