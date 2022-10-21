@@ -42,33 +42,30 @@ const departmentQuestion = [
 	}
 ]
 
-/*
-	
-	// ROLE questions
+
+
+// ROLE questions
+const roleQuestions = [
 	{
 		type: 'input',
 		message: "What is the name of the role?",
 		name: 'roleName',
-		when: function (answer) {
-			return answer.userChoice === "Add a role";
-		}
+
 	},
 	{
 		type: 'input',
 		message: "What is the salary of the role?",
 		name: 'roleSalary',
-		when: function (answer) {
-			return answer.userChoice === "Add a role";
-		}
+
 	},
 	{
 		type: 'input',
 		message: "Which department does the role belong to?",
 		name: 'roleDepartment',
-		when: function (answer) {
-			return answer.userChoice === "Add a role";
-		}
-	},
+
+	}
+]
+/*
 	//EMPLOYEE questions
 	{
 		type: 'input',
@@ -132,7 +129,9 @@ function userInput() {
 				case "Add a department":
 					addDepartment();
 					break;
-
+				case "Add a role":
+					addRole();
+					break;
 			}
 		})
 
@@ -189,6 +188,30 @@ function addDepartment() {
 
 // Function Add Role
 
+function addRole() {
+	return inquirer.prompt(roleQuestions)
+		.then((function (res) {
+			db.query(
+				"INSERT INTO role_employee SET ? ",
+				{
+					title: res.roleName,
+					salary: res.roleSalary,
+					department_id: res.roleDepartment //fix department id
+
+				},
+				function (err) {
+					if (err) throw err
+					console.table(res);
+					userInput();
+				}
+			)
+		}))
+}
+
 // Function Add Employee
+
+//Function update Employee
+
+//
 
 
