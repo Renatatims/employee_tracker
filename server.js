@@ -7,9 +7,9 @@ const db = mysql.createConnection(
 	  host: 'localhost',
 	  user: 'root',
 	  password: process.env.DB_PASS,
-	  database: 'movies_db'
+	  database: 'employees_db'
 	},
-	console.log(`Connected to the movies_db database.`)
+	console.log(`Connected to the employees_db database.`)
   );
 
   // Query database
