@@ -114,14 +114,13 @@ function userInput() {
 
 };
 // Function View Department - display department't table 
-function viewDepartments() {
-	db.query("SELECT * FROM department",
-		function (err, res) {
-			if (err) throw err
-			console.table(res)
-			userInput()
-		})
-}
+async function viewDepartments() {
+	db.query("SELECT * FROM department")
+	const res = await db.promise().query("SELECT * FROM department")
+	console.table(res[0])
+	userInput()
+};
+
 
 // Function View Roles - display role's table 
 function viewRoles() {
