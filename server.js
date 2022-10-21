@@ -65,43 +65,33 @@ const roleQuestions = [
 
 	}
 ]
-/*
-	//EMPLOYEE questions
+
+//EMPLOYEE questions
+const employeeQuestions = [
 	{
 		type: 'input',
 		message: "What is the employee's first name?",
 		name: 'employeeFirstName',
-		when: function (answer) {
-			return answer.userChoice === "Add an employee";
-		}
 	},
 	{
 		type: 'input',
 		message: "What is the employee's last name?",
 		name: 'employeeLastName',
-		when: function (answer) {
-			return answer.userChoice === "Add an employee";
-		}
 	},
 	{
 		type: 'input',
 		message: "What is the employee's role?",
 		name: 'employeeRole',
-		when: function (answer) {
-			return answer.userChoice === "Add an employee";
-		}
 	},
 	{
-		type: 'list',
+		type: 'input',
 		message: "Who is the employee's manager?",
 		name: 'employeeManager',
-		choices: ["Manager1", "Manager2", "Manager3"],
-		when: function (answer) {
-			return answer.userChoice === "Add an employee";
-		}
+		//choices: ["Manager1", "Manager2", "Manager3"],
 	},
+]
 
-
+/*
 	//Back to main menu
 	{
 		type: 'list',
@@ -131,6 +121,9 @@ function userInput() {
 					break;
 				case "Add a role":
 					addRole();
+					break;
+				case "Add an employee":
+					addEmployee();
 					break;
 			}
 		})
@@ -209,6 +202,28 @@ function addRole() {
 }
 
 // Function Add Employee
+
+function addEmployee() {
+	return inquirer.prompt(employeeQuestions)
+		.then((function (res) {
+			db.query(
+				"INSERT INTO employee SET ? ",
+				{
+					first_name: res.employeeFirstName,
+					last_name: res.employeeLastName,
+					role_id: res.employeeRole,
+					manager_id: res.employeeManager
+
+
+				},
+				function (err) {
+					if (err) throw err
+					console.table(res);
+					userInput();
+				}
+			)
+		}))
+}
 
 //Function update Employee
 
