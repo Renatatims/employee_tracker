@@ -85,6 +85,26 @@ const employeeQuestions = [
 	},
 ]*/
 
+//Update Employee Questions
+
+const updateEmployee =[
+		{
+			type: "input",
+			message: " What employee needs to update?",
+			name: "id",
+			
+
+		},
+		{
+			type: "input",
+			message: " Which is the employee's new role?",
+			name: "role_id",
+			
+		}
+
+	];
+
+
 
 // User Input Function - return answers
 function userInput() {
@@ -244,6 +264,7 @@ function addEmployee() {
 
 //Function update Employee
 
+	
 //
 
 
