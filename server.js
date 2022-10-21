@@ -117,6 +117,9 @@ function userInput() {
 	return inquirer.prompt(questions)
 	.then (function(value){
 		switch (value.userChoice){
+			case "View all departments":
+                viewDepartments();
+              break;
 			case "View all employees":
 				viewEmployees();
 				break;
@@ -124,6 +127,15 @@ function userInput() {
 	})
 
 };
+// Function View Department - display department't table 
+function viewDepartments() {
+	db.query("SELECT * FROM department", 
+	function(err, res) {
+	  if (err) throw err
+	  console.table(res)
+	  userInput()
+	})
+  }
 
 // Function View Employees - to display the employee's table 
 function viewEmployees() {
@@ -134,3 +146,4 @@ function viewEmployees() {
 	  userInput()  
   })
 }
+
