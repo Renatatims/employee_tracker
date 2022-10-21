@@ -85,27 +85,6 @@ const employeeQuestions = [
 	},
 ]*/
 
-//Update Employee Questions
-
-const updateEmployee =[
-		{
-			type: "input",
-			message: " What employee needs to update?",
-			name: "id",
-			
-
-		},
-		{
-			type: "input",
-			message: " Which is the employee's new role?",
-			name: "role_id",
-			
-		}
-
-	];
-
-
-
 // User Input Function - return answers
 function userInput() {
 	return inquirer.prompt(questions)
@@ -129,6 +108,10 @@ function userInput() {
 				case "Add an employee":
 					addEmployee();
 					break;
+				case "Update an employee role":
+					updateEmployee();
+					break;
+
 			}
 		})
 
@@ -259,12 +242,34 @@ function addEmployee() {
 							)
 						}))
 				})
-			})
-		}
+		})
+}
 
 //Function update Employee
+async function updateEmployee() {
+	const roleQuestions = await db.promise().query("SELECT id AS value, title AS name FROM role_employee")
+	const employeeQuestions = await db.promise().query("SELECT id AS value, first_name AS name FROM employee")
+	const answers = await inquirer.prompt([
+		{
+			type: "list",
+			message: " What employee needs to update?",
+			name: "id",
+			choices: employeeQuestions[0]
 
-	
+		},
+		{
+			type: "list",
+			message: " Which is the employee's new role?",
+			name: "role_id",
+			choices: roleQuestions[0]
+		}
+
+	])
+	await db.promise().query("UPDATE employee SET role_id = ? WHERE id = ?", [answers.role_id, answers.id])
+	console.log("Employee id");
+	userInput();
+}
+
 //
 
 
