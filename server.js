@@ -73,17 +73,6 @@ const employeeQuestions = [
 		message: "What is the employee's last name?",
 		name: 'employeeLastName',
 	},
-	{
-		type: 'input',
-		message: "What is the employee's role?",
-		name: 'employeeRole',
-	},
-	{
-		type: 'input',
-		message: "Who is the employee's manager?",
-		name: 'employeeManager',
-		//choices: ["Manager1", "Manager2", "Manager3"],
-	},
 ]
 
 /*
@@ -176,61 +165,83 @@ function addDepartment() {
 
 // Function Add Role
 function addRole() {
-	const dptQ = {
+	const departmentQ = {
 		type: 'list',
 		message: "Which department does the role belong to?",
 		name: 'roleDepartment',
 
-	} 
+	}
 	db.promise().query("SELECT id AS value, department_name AS name FROM department")
-	.then(dept => {
-		console.log(dept);
-		dptQ.choices = dept[0]
-		roleQuestions.push(dptQ)
-	
-	return inquirer.prompt(roleQuestions)
-		.then((function (res) {
-			db.query(
-				"INSERT INTO role_employee SET ? ",
-				{
-					title: res.roleName,
-					salary: res.roleSalary,
-					department_id: res.roleDepartment //fix department id
+		.then(dept => {
+			console.log(dept);
+			departmentQ.choices = dept[0]
+			roleQuestions.push(departmentQ)
 
-				},
-				function (err) {
-					if (err) throw err
-					console.table(res);
-					userInput();
-				}
-			)
-		}))
-	})
+			return inquirer.prompt(roleQuestions)
+				.then((function (res) {
+					db.query(
+						"INSERT INTO role_employee SET ? ",
+						{
+							title: res.roleName,
+							salary: res.roleSalary,
+							department_id: res.roleDepartment //fix department id
+
+						},
+						function (err) {
+							if (err) throw err
+							console.table(res);
+							userInput();
+						}
+					)
+				}))
+		})
 }
 
 // Function Add Employee
 
 function addEmployee() {
-	return inquirer.prompt(employeeQuestions)
-		.then((function (res) {
-			db.query(
-				"INSERT INTO employee SET ? ",
-				{
-					first_name: res.employeeFirstName,
-					last_name: res.employeeLastName,
-					role_id: res.employeeRole,
-					manager_id: res.employeeManager
+	const employeeRoleQ = {
+		type: 'list',
+		message: "What is the employee's role?",
+		name: 'employeeRole',
+	}
+
+	const employeeManagerQ = {
+		type: 'list',
+		message: "Who is the employee's manager?",
+		name: 'employeeManager',
+	}
+
+	db.promise().query("SELECT id AS value, title AS name FROM role_employee")
+		.then(role => {
+			employeeRoleQ.choices = role[0]
+			employeeQuestions.push(employeeRoleQ)
+			db.promise().query("SELECT id AS value, first_name AS name FROM employee")
+				.then(employee => {
+					employeeManagerQ.choices = employee[0]
+					employeeQuestions.push(employeeManagerQ)
+					return inquirer.prompt(employeeQuestions)
+						.then((function (res) {
+							db.query(
+								"INSERT INTO employee SET ? ",
+								{
+									first_name: res.employeeFirstName,
+									last_name: res.employeeLastName,
+									role_id: res.employeeRole,
+									manager_id: res.employeeManager
 
 
-				},
-				function (err) {
-					if (err) throw err
-					console.table(res);
-					userInput();
-				}
-			)
-		}))
-}
+								},
+								function (err) {
+									if (err) throw err
+									console.table(res);
+									userInput();
+								}
+							)
+						}))
+				})
+			})
+		}
 
 //Function update Employee
 
