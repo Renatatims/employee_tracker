@@ -115,35 +115,48 @@ const questions = [
 // User Input Function - return answers
 function userInput() {
 	return inquirer.prompt(questions)
-	.then (function(value){
-		switch (value.userChoice){
-			case "View all departments":
-                viewDepartments();
-              break;
-			case "View all employees":
-				viewEmployees();
-				break;
-		}
-	})
+		.then(function (value) {
+			switch (value.userChoice) {
+				case "View all departments":
+					viewDepartments();
+					break;
+				case "View all roles":
+					viewRoles();
+					break;
+				case "View all employees":
+					viewEmployees();
+					break;
+			}
+		})
 
 };
 // Function View Department - display department't table 
 function viewDepartments() {
-	db.query("SELECT * FROM department", 
-	function(err, res) {
-	  if (err) throw err
-	  console.table(res)
-	  userInput()
-	})
-  }
+	db.query("SELECT * FROM department",
+		function (err, res) {
+			if (err) throw err
+			console.table(res)
+			userInput()
+		})
+}
+
+// Function View Roles - display role's table 
+function viewRoles() {
+	db.query("SELECT * FROM role_employee",
+		function (err, res) {
+			if (err) throw err
+			console.table(res)
+			userInput()
+		})
+}
 
 // Function View Employees - to display the employee's table 
 function viewEmployees() {
-    db.query("SELECT * FROM employee", 
-    function(err, res) {
-      if (err) throw err
-      console.table(res)
-	  userInput()  
-  })
+	db.query("SELECT * FROM employee",
+		function (err, res) {
+			if (err) throw err
+			console.table(res)
+			userInput()
+		})
 }
 
