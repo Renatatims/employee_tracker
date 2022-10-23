@@ -101,8 +101,8 @@ function userInput() {
 };
 // Function View Department - display department't table 
 async function viewDepartments() {
-	db.query("SELECT * FROM department")
-	const res = await db.promise().query("SELECT * FROM department")
+	db.query("SELECT department.id AS id, department.department_name AS department FROM department")
+	const res = await db.promise().query("SELECT department.id AS id, department.department_name AS department FROM department")
 	console.table(res[0])
 	userInput()
 };
@@ -110,7 +110,7 @@ async function viewDepartments() {
 
 // Function View Roles - display role's table 
 function viewRoles() {
-	db.query("SELECT * FROM role_employee",
+	db.query("SELECT role_employee.title, role_employee.id, department.department_name AS department, role_employee.salary AS salary FROM role_employee INNER JOIN department ON role_employee.department_id = department.id ",
 		function (err, res) {
 			if (err) throw err
 			console.table(res)
@@ -120,7 +120,7 @@ function viewRoles() {
 
 // Function View Employees - to display the employee's table 
 function viewEmployees() {
-	db.query("SELECT * FROM employee",
+	db.query("SELECT * FROM employee JOIN role_employee ON employee.role_id = role_employee.id",
 		function (err, res) {
 			if (err) throw err
 			console.table(res)
