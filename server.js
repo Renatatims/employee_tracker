@@ -157,7 +157,6 @@ function addRole() {
 	}
 	db.promise().query("SELECT id AS value, department_name AS name FROM department")
 		.then(dept => {
-			console.log(dept);
 			departmentQ.choices = dept[0]
 			roleQuestions.push(departmentQ)
 
@@ -233,21 +232,21 @@ async function updateEmployee() {
 	const answers = await inquirer.prompt([
 		{
 			type: "list",
-			message: " What employee needs to update?",
+			message: "Which employee's role needs to update?",
 			name: "id",
 			choices: employeeQuestions[0]
 
 		},
 		{
 			type: "list",
-			message: " Which is the employee's new role?",
+			message: "Which is the employee's new role?",
 			name: "role_id",
 			choices: roleQuestions[0]
 		}
 
 	])
 	await db.promise().query("UPDATE employee SET role_id = ? WHERE id = ?", [answers.role_id, answers.id])
-	console.log("Employee id");
+	console.log("Updated employee's role");
 	userInput();
 }
 
