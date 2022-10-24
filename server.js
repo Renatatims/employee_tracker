@@ -26,7 +26,7 @@ const questions = [
 	{
 		type: 'list',
 		message: "What would you like to do?",
-		choices: ["View all departments", "View all roles", "View all employees", "Add a department", "Add a role", "Add an employee", "Update an employee role"],
+		choices: ["View all departments", "View all roles", "View all employees", "Add a department", "Add a role", "Add an employee", "Update an employee role", "View Total Budget"],
 		name: 'userChoice'
 
 	}]
@@ -48,7 +48,7 @@ const roleQuestions = [
 		name: 'roleName',
 	},
 	{
-		type: 'input',
+		type: 'number',
 		message: "What is the salary of the role?",
 		name: 'roleSalary',
 	}
@@ -94,6 +94,9 @@ function userInput() {
 				case "Update an employee role":
 					updateEmployee();
 					break;
+				case "View Total Budget":
+					totalBudget();
+					break;
 
 			}
 		})
@@ -101,7 +104,7 @@ function userInput() {
 };
 // Function View Department - display department't table 
 async function viewDepartments() {
-	db.query("SELECT department.id AS id, department.department_name AS name FROM department")
+	//db.query("SELECT department.id AS id, department.department_name AS name FROM department")
 	const res = await db.promise().query("SELECT department.id AS id, department.department_name AS name FROM department")
 	console.table(res[0])
 	userInput()
@@ -179,9 +182,9 @@ function addRole() {
 						}
 					)
 				}))
-				
+
 		})
-		
+
 }
 
 // Function Add Employee
@@ -254,5 +257,16 @@ async function updateEmployee() {
 	console.log("Updated employee's role");
 	userInput();
 }
+
+// Budget
+
+async function totalBudget() {
+	//db.query("SELECT role_employee.salary SUM(role_employee.salary) AS Budget FROM role_employee")
+	const totalB = await db.promise().query ("SELECT SUM(role_employee.salary) AS Total_Budget FROM role_employee")
+		console.log('\n');
+		console.table(totalB[0]);
+		userInput();
+	}
+
 
 
