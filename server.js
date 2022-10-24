@@ -26,7 +26,7 @@ const questions = [
 	{
 		type: 'list',
 		message: "What would you like to do?",
-		choices: ["View all departments", "View all roles", "View all employees", "Add a department", "Add a role", "Add an employee", "Update an employee role", "View Total Budget"],
+		choices: ["View all departments", "View all roles", "View all employees", "Add a department", "Add a role", "Add an employee", "Update an employee role", "View Total Budget", "Delete Department"],
 		name: 'userChoice'
 
 	}]
@@ -97,6 +97,11 @@ function userInput() {
 				case "View Total Budget":
 					totalBudget();
 					break;
+
+				case "Delete Department":
+					deleteDepartments();
+					break;
+
 
 			}
 		})
@@ -258,15 +263,35 @@ async function updateEmployee() {
 	userInput();
 }
 
-// Budget
-
+// Total Budget
 async function totalBudget() {
 	//db.query("SELECT role_employee.salary SUM(role_employee.salary) AS Budget FROM role_employee")
-	const totalB = await db.promise().query ("SELECT SUM(role_employee.salary) AS Total_Budget FROM role_employee")
-		console.log('\n');
-		console.table(totalB[0]);
+	const totalB = await db.promise().query("SELECT SUM(role_employee.salary) AS Total_Budget FROM role_employee")
+	console.log('\n');
+	console.table(totalB[0]);
+	userInput();
+}
+
+
+// Delete Departments
+async function deleteDepartments() {
+	const answer = await inquirer.prompt([
+		{
+			name: "deleteDepartment",
+			type: "input",
+			message: "Please type the department you would like to delete"
+		}
+
+	])
+	if (answer) {
+		await db.promise().query(`DELETE FROM department WHERE department_name="${answer.deleteDepartment}"`)
+		console.log(`The following department was deleted: ${answer.deleteDepartment}`);
 		userInput();
 	}
+
+};
+
+
 
 
 
