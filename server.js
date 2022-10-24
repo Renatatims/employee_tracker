@@ -140,7 +140,8 @@ function addDepartment() {
 				},
 				function (err) {
 					if (err) throw err
-					console.table(res);
+					//console.table(res);
+					console.log(`Added ${res.departmentName} to the database`)
 					userInput();
 				}
 			)
@@ -172,12 +173,15 @@ function addRole() {
 						},
 						function (err) {
 							if (err) throw err
-							console.table(res);
+							//console.table(res);
+							console.log(`Added ${res.roleName} to the database`)
 							userInput();
 						}
 					)
 				}))
+				
 		})
+		
 }
 
 // Function Add Employee
@@ -216,7 +220,8 @@ function addEmployee() {
 								},
 								function (err) {
 									if (err) throw err
-									console.table(res);
+									//console.table(res);
+									console.log(`Added ${res.employeeFirstName} ${res.employeeLastName} to the database`)
 									userInput();
 								}
 							)
