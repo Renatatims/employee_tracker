@@ -4,7 +4,6 @@ const mysql = require('mysql2');
 const consoleTable = require('console.table');
 const cfonts = require('cfonts');
 
-
 //MySQL - Create Connection
 const db = mysql.createConnection(
 	{
@@ -16,18 +15,18 @@ const db = mysql.createConnection(
 	},
 	//console.log(`Connected to the employees_db database.`)
 	cfonts.say('Employee Manager', {
-		font: 'block',              // define the font face
-		align: 'left',              // define text alignment
-		colors: ['blue'],         // define all colors
-		background: 'transparent',  // define the background color, you can also use `backgroundColor` here as key
-		letterSpacing: 1,           // define letter spacing
-		lineHeight: 1,              // define the line height
-		space: true,                // define if the output text should have empty lines on top and on the bottom
-		maxLength: '0',             // define how many character can be on one line
-		gradient: false,            // define your two gradient colors
-		independentGradient: false, // define if you want to recalculate the gradient for each new line
-		transitionGradient: false,  // define if this is a transition between colors directly
-		env: 'node'                 // define the environment cfonts is being executed in
+		font: 'block',
+		align: 'left',
+		colors: ['blue', 'white'],
+		background: 'transparent',
+		letterSpacing: 1,
+		lineHeight: 1,
+		space: true,
+		maxLength: '8',
+		gradient: false,
+		independentGradient: false,
+		transitionGradient: false,
+		env: 'node'
 	})
 );
 
@@ -43,16 +42,16 @@ const questions = [
 		type: 'list',
 		message: "What would you like to do?",
 		choices: [
-			"View all departments", 
-			"Add a department", 
+			"View all departments",
+			"Add a department",
 			"Delete a department",
-			"View all roles", 
-			"Add a role", 
-			"View all employees",   
-			"Add an employee", 
-			"Update an employee role", 
-			"View Total Budget", 
-			],
+			"View all roles",
+			"Add a role",
+			"View all employees",
+			"Add an employee",
+			"Update an employee role",
+			"View Total Budget",
+		],
 		name: 'userChoice'
 
 	}]
