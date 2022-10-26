@@ -26,7 +26,7 @@ const questions = [
 	{
 		type: 'list',
 		message: "What would you like to do?",
-		choices: ["View all departments", "View all roles", "View all employees", "Add a department", "Add a role", "Add an employee", "Update an employee role", "View Total Budget", "Delete Department"],
+		choices: ["View all departments", "View all roles", "View all employees", "Add a department", "Add a role", "Add an employee", "Update an employee role", "View Total Budget", "Delete Department", "Delete Role"],
 		name: 'userChoice'
 
 	}]
@@ -97,11 +97,12 @@ function userInput() {
 				case "View Total Budget":
 					totalBudget();
 					break;
-
 				case "Delete Department":
 					deleteDepartments();
 					break;
-
+				case "Delete Role":
+					deleteRoles();
+					break;
 
 			}
 		})
@@ -128,7 +129,9 @@ function viewRoles() {
 
 // Function View Employees - to display the employee's table 
 function viewEmployees() {
-	db.query("SELECT * FROM employee JOIN role_employee ON employee.role_id = role_employee.id JOIN department ON role_employee.department_id = department.id",
+	db.query("SELECT employee.first_name, employee.last_name, role_employee.title, role_employee.salary, department.department_name, CONCAT(empManager.first_name, ' ' ,empManager.last_name) AS Manager FROM employee INNER JOIN role_employee on role_employee.id = employee.role_id INNER JOIN department on department.id = role_employee.department_id LEFT JOIN employee empManager ON employee.manager_id = empManager.id",
+		
+		//"SELECT * FROM employee JOIN role_employee ON employee.role_id = role_employee.id JOIN department ON role_employee.department_id = department.id",
 		function (err, res) {
 			if (err) throw err
 			console.table(res)
@@ -228,8 +231,10 @@ function addEmployee() {
 								},
 								function (err) {
 									if (err) throw err
-									//console.table(res);
+									console.table(res);
 									console.log(`Added ${res.employeeFirstName} ${res.employeeLastName} to the database`)
+									console.log (`Manger ${res.employeeManager} selected`);
+									console.log (employee[0]);
 									userInput();
 								}
 							)
@@ -291,7 +296,26 @@ async function deleteDepartments() {
 
 };
 
+/*
 
+// Delete Roles - Working on
+async function deleteRoles() {
+	const answer = await inquirer.prompt([
+		{
+			name: "deleteRole",
+			type: "input",
+			message: "Please type the role you would like to delete"
+		}
+
+	])
+	if (answer) {
+		await db.promise().query(`DELETE FROM role_employee WHERE role_employee.title="${answer.deleteRole}"`)
+		console.log(`The following role was deleted: ${answer.deleteRole}`);
+		userInput();
+	}
+
+};
+*/
 
 
 
