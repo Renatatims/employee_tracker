@@ -6,6 +6,9 @@
   This application manages employee database, using Node.js, Inquirer and MySQL2.
 
   ![Preview](assets/screenshots/Capture1.PNG)
+  
+  ## Link to Demo video available at:
+  https://drive.google.com/file/d/1OQG91gF9FRJKYnAq7BoE6aaBIidDvKZf/view
 
   ## Table of Contents
   - [Installation](#installation)
