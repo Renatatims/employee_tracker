@@ -214,7 +214,7 @@ function addEmployee() {
 			employeeQuestions.push(employeeRoleQ)
 			db.promise().query("SELECT id AS value, first_name AS name FROM employee")
 				.then(employee => {
-					employeeManagerQ.choices = employee[0]
+					employeeManagerQ.choices = employee[0] 
 					employeeQuestions.push(employeeManagerQ)
 					return inquirer.prompt(employeeQuestions)
 						.then((function (res) {
@@ -232,8 +232,8 @@ function addEmployee() {
 									if (err) throw err
 									console.table(res);
 									console.log(`Added ${res.employeeFirstName} ${res.employeeLastName} to the database`)
-									console.log (`Manger ${res.employeeManager} selected`);
-									console.log (employee[0]);
+									//console.log (`Manger ${res.employeeManager} selected`);
+									//console.log (employee[0]);
 									userInput();
 								}
 							)
