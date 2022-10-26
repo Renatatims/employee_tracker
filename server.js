@@ -129,8 +129,7 @@ function viewRoles() {
 
 // Function View Employees - to display the employee's table 
 function viewEmployees() {
-	db.query("SELECT employee.first_name, employee.last_name, role_employee.title, role_employee.salary, department.department_name, CONCAT(empManager.first_name, ' ' ,empManager.last_name) AS Manager FROM employee INNER JOIN role_employee on role_employee.id = employee.role_id INNER JOIN department on department.id = role_employee.department_id LEFT JOIN employee empManager ON employee.manager_id = empManager.id",
-		
+	db.query("SELECT employee.id, employee.first_name, employee.last_name, role_employee.title, department.department_name AS department, role_employee.salary, CONCAT(empManager.first_name, ' ' ,empManager.last_name) AS manager FROM employee INNER JOIN role_employee on role_employee.id = employee.role_id INNER JOIN department on department.id = role_employee.department_id LEFT JOIN employee empManager ON employee.manager_id = empManager.id",
 		//"SELECT * FROM employee JOIN role_employee ON employee.role_id = role_employee.id JOIN department ON role_employee.department_id = department.id",
 		function (err, res) {
 			if (err) throw err
